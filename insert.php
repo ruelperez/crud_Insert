@@ -5,31 +5,38 @@
     $connected = connection();
 
     if(isset($_POST['submit'])){
-        $name = $_POST['fullname'];
+        $name   = $_POST['fullname'];
         $addreS = $_POST['address'];
-        $image = $_FILES['photo']['name'];
-        
-       $target = "photo/" .basename($_FILES['photo']['name']);
-        
+        $image  = $_FILES['photo'];
 
-        $sql = "INSERT INTO `candidates`(`full_name`, `location`, `photo`) VALUES ('$name','$addreS','$image')";
+        /**
+         * WAY TO GO, RUEL...
+         * KEEP IT UP!
+         *
+         * TIP #1: During file uploads,
+         * make sure to verify the type of file being uploaded.
+         * The user might have uploaded malicious files such as his/her own PHP file.
+         *
+         */
 
-        $connected->query($sql) or die ($connected->error);
-        
-        if (move_uploaded_file($_FILES['tmp_name']['name'],"$target")) {
+        $target = "photo/" . basename($image['name']);
+        if (move_uploaded_file($image['tmp_name'], $target)) {
+
+            /**
+             * TIP #2: During record insert
+             * make sure to sanitize the user input.
+             * The user might have entered malicious SQL statements in your form.
+             *
+             */
+            $sql = "INSERT INTO `candidates`(`full_name`, `location`, `photo`) VALUES ('$name', '$addreS', '".$image['name']."')";
+            $connected->query($sql) or die ($connected->error);
+
             echo "uploaded";
         }
         else{
             echo "error";
         }
-
-      
-
-        
     }
-
-    
-
 ?>
 
 <!DOCTYPE html>
@@ -53,6 +60,5 @@
             <input type="submit" name="submit">
 
         </form>
-
     </body>
 </html>
