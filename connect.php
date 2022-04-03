@@ -4,7 +4,7 @@
 
         $host = "localhost";
         $username = "root";
-        $password = "";
+        $password = "1234";
         $db = "miss_aclc_iriga_2022";
 
         $con_data = new mysqli($host, $username, $password, $db);
