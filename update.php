@@ -17,7 +17,7 @@
         $image  = $_FILES['photo'];
 
 
-        $sql = "UPDATE `candidates` SET `full_name`='$name',`location`='$addreS',`photo`= '$image'  WHERE id = '$id'";
+        $sql = "UPDATE `candidates` SET `full_name`='$name',`location`='$addreS',`photo`= '".$image['name']."'  WHERE id = '$id'";
         $connected->query($sql) or die ($connected->error);
 
         $target = "photo/" . basename($image['name']);
