@@ -8,7 +8,7 @@
     $dt = $connect->query($sql) or die ($connect->error);
     $row = $dt->fetch_assoc();
 
-    
+
 ?>
     
 <!DOCTYPE html>
@@ -20,14 +20,16 @@
             table{
               
                 border-collapse: collapse;
-                margin-left: auto;
-                margin-right: auto;
-                width: 50%;
+                width: 80%;
+                margin: auto;
             }
             th, td{
                 border: 1px solid black;
                 text-align: center;
             }
+            
+
+            
             h1{
                 text-align: center;
                 
@@ -39,6 +41,11 @@
             button{
                 background-color: pink;
                 margin-left: 25%;
+                margin-bottom: 10px;
+                width: 100px;
+                height: 60px;
+                
+                
                 
             }
 
@@ -46,11 +53,12 @@
     </head>
 
     <body>
-        <button><a href="insert.php"><b>Add New</b></a></button>
+        
         <h1>Candidates List</h1>
+        <button><a href="insert.php"><b>Add New</b></a></button>
         <table>
             <tr>
-                <th>CANDIDATE NO.</td> 
+                <th>CANDIDATE #</td> 
                 <th>FULL NAME</td>
                 <th>LOCATION</td>
                 <th>Photo</th>
@@ -60,7 +68,8 @@
                 <td><?php echo $row ['id'] ?></td>
                 <td><?php echo $row ['full_name'] ?></td>
                 <td><?php echo $row ['location'] ?></td>
-                <td><?php echo $row ['photo'] ?></td>
+                <td><img src="photo/<?php echo $row['photo']?>" width=100px height=100px></td>
+                <td><a href="update.php?ID= <?php echo $row['id']?>">UPDATE INFO.</a></td>
             </tr>
             <?php } while($row = $dt->fetch_assoc()) ?>
         </table>

@@ -3,39 +3,34 @@
     include "connect.php";
 
     $connected = connection();
+   $id = $_GET['ID'];
+
+    $sql = "SELECT * FROM `candidates` WHERE id = '$id'";
+    $dt = $connected->query($sql) or die ($connect->error);
+    $row = $dt->fetch_assoc();
+
+
 
     if(isset($_POST['submit'])){
         $name   = $_POST['fullname'];
         $addreS = $_POST['address'];
         $image  = $_FILES['photo'];
 
-        /**
-         * WAY TO GO, RUEL...
-         * KEEP IT UP!
-         *
-         * TIP #1: During file uploads,
-         * make sure to verify the type of file being uploaded.
-         * The user might have uploaded malicious files such as his/her own PHP file.
-         *
-         */
+
+        $sql = "UPDATE `candidates` SET `full_name`='$name',`location`='$addreS',`photo`= '$image'  WHERE id = '$id'";
+        $connected->query($sql) or die ($connected->error);
 
         $target = "photo/" . basename($image['name']);
         if (move_uploaded_file($image['tmp_name'], $target)) {
-
-            /**
-             * TIP #2: During record insert
-             * make sure to sanitize the user input.
-             * The user might have entered malicious SQL statements in your form.
-             *
-             */
-            $sql = "INSERT INTO `candidates`(`full_name`, `location`, `photo`) VALUES ('$name', '$addreS', '" .$image['name']."')";
-            $connected->query($sql) or die ($connected->error);
-
+            
             echo "uploaded";
         }
         else{
             echo "error";
         }
+
+        
+        
     }
 ?>
 
@@ -49,13 +44,13 @@
         <form action="" method="post" enctype="multipart/form-data">
 
             <label>Full Name</label>
-            <input type="text" name="fullname">
+            <input type="text" name="fullname" value = "<?php echo $row['full_name']?>">
 
             <label>Location</label>
-            <input type="text" name="address">
+            <input type="text" name="address" value = "<?php echo $row['location']?>">
 
             <label>Upload Photo</label>
-            <input type="file" name="photo">
+            <input type="file" name="photo" value = "<?php echo $row['photo']?>">
 
             <input type="submit" name="submit">
 
