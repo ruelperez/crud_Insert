@@ -8,6 +8,17 @@
     $dt = $connect->query($sql) or die ($connect->error);
     $row = $dt->fetch_assoc();
 
+    if(isset($_POST['deleted'])){
+
+        $id_num = $_POST['id'];
+
+        $sql = "DELETE FROM `candidates` WHERE id = '$id_num'";
+        $connected->query($sql) or die ($connect->error);
+       
+    }
+
+
+
 
 ?>
     
@@ -20,7 +31,7 @@
             table{
               
                 border-collapse: collapse;
-                width: 80%;
+                width: 90%;
                 margin: auto;
             }
             th, td{
@@ -53,7 +64,7 @@
     </head>
 
     <body>
-        
+    
         <h1>Candidates List</h1>
         <button><a href="insert.php"><b>Add New</b></a></button>
         <table>
@@ -70,6 +81,10 @@
                 <td><?php echo $row ['location'] ?></td>
                 <td><img src="photo/<?php echo $row['photo']?>" width=100px height=100px></td>
                 <td><a href="update.php?ID= <?php echo $row['id']?>">UPDATE INFO.</a></td>
+                <td><a href="delete.php?ID= <?php echo $row['id']?>">DELETE</a></td>
+            
+                
+                
             </tr>
             <?php } while($row = $dt->fetch_assoc()) ?>
         </table>
