@@ -26,17 +26,22 @@
         else{
             echo "ERROR";
         }
-
-        
-
         
     }
+    $sql = "SELECT * FROM judges";
+             $dt = $connected->query($sql) or die ($connected->error);
+             $row = $dt->fetch_assoc();
+            
+
+            
+             
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
      <head>
-        <title>crud operation</title>
+        <title>judges crud</title>
 
         <style>
             table{
@@ -70,10 +75,13 @@
                 
                 
             }
+
+        </style>
+        
     </head>
 
     <body>
-        <form style="margin: auto; width: 220px;" action="" method="post" enctype="multipart/form-data">
+        <form style="padding: 10px; margin: auto; width: 500px;height: 240px; border: 1px solid black; text-align: center;" action="" method="post" enctype="multipart/form-data">
             
             <label>Full Name</label>
             <input type="text" name="fullname"><br><br>
@@ -94,20 +102,12 @@
             <input type="password" name="password"><br><br>
 
             <input type="submit" name="submit">
+        
+        </form><br><br>
 
-            
+      
+        <table >
 
-        </form>
-
-        <?php
-
-        $sql = "SELECT * FROM judges";
-        $dt = $connected->query($sql) or die ($connect->error);
-        $row = $dt->fetch_assoc();
-           
-        ?>
-
-        <table>
             <tr>
                 <th>Judge#</td> 
                 <th>Full Name</td>
@@ -116,22 +116,22 @@
                 <th>UserName</th>
                 <th>Password</th>
             </tr>
-            <?php do{ ?>
+            <?php do { ?>
             <tr>
                 <td><?php echo $row ['id'] ?></td>
                 <td><?php echo $row ['full_name'] ?></td>
                 <td><?php echo $row ['is_chairman'] ?></td>
-                <td><?php echo $row ['photo'] ?></td>
-                <td><?php echo $row ['username'] ?></td>
-                <td><?php echo $row ['password'] ?></td>
                 <td><img src="photos/<?php echo $row['photo']?>" width=100px height=100px></td>
-                <td><a href="update.php?ID= <?php echo $row['id']?>">UPDATE INFO.</a></td>
-                <td><a href="delete.php?ID= <?php echo $row['id']?>">DELETE</a></td>
+                <td><?php echo $row ['username'] ?></td>
+                <td><?php echo $row ['password'] ?></td>   
+                <td><a href="update_judge.php?ID= <?php echo $row['id']?>">UPDATE INFO.</a></td>
+                <td><a href="delete_judge.php?ID= <?php echo $row['id']?>">DELETE</a></td>
             
                 
                 
-            </tr>
-            <?php } while($row = $dt->fetch_assoc()) ?>
+            </tr> 
+                <?php } while($row = $dt->fetch_assoc()) ?>
+
         </table>
     </body>
 </html>
